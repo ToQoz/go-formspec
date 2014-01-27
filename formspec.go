@@ -14,8 +14,8 @@ type Error struct {
 	Message string `json:"message"`
 }
 
-func (ve *Error) Error() string {
-	return ve.Message
+func (e *Error) Error() string {
+	return e.Message
 }
 
 // ----------------------------------------------------------------------------
@@ -40,11 +40,11 @@ func (f *Formspec) Rule(field string, ruleFunc RuleFunc) *Rule {
 	return rule
 }
 
-func (fspec *Formspec) Validate(f Form) (errors []error, ok bool) {
+func (f *Formspec) Validate(form Form) (errors []error, ok bool) {
 	ok = true
 
-	for _, rule := range fspec.Rules {
-		err := rule.Call(f)
+	for _, rule := range f.Rules {
+		err := rule.Call(form)
 
 		if err != nil {
 			ok = false
@@ -84,23 +84,23 @@ type Rule struct {
 	message string
 }
 
-func (v *Rule) AllowBlank() *Rule {
-	v.allowBlank = true
-	return v
+func (r *Rule) AllowBlank() *Rule {
+	r.allowBlank = true
+	return r
 }
 
 // If you override error message. Use following funcs `FullMessage()/Message()`.
 
 // FullMessage sets Rule.fullMessage.
-func (v *Rule) FullMessage(m string) *Rule {
-	v.fullMessage = m
-	return v
+func (r *Rule) FullMessage(m string) *Rule {
+	r.fullMessage = m
+	return r
 }
 
 // Message sets Rule.message.
-func (v *Rule) Message(m string) *Rule {
-	v.message = m
-	return v
+func (r *Rule) Message(m string) *Rule {
+	r.message = m
+	return r
 }
 
 func (r *Rule) Filter(filterFunc FilterFunc) *Rule {
@@ -140,13 +140,13 @@ func (r *Rule) Call(f Form) error {
 	return nil
 }
 
-func (v *Rule) clone() *Rule {
+func (r *Rule) clone() *Rule {
 	return &Rule{
-		Field:       v.Field,
-		RuleFunc:    v.RuleFunc,
-		FilterFuncs: v.FilterFuncs,
-		allowBlank:  v.allowBlank,
-		message:     v.message,
-		fullMessage: v.fullMessage,
+		Field:       r.Field,
+		RuleFunc:    r.RuleFunc,
+		FilterFuncs: r.FilterFuncs,
+		allowBlank:  r.allowBlank,
+		message:     r.message,
+		fullMessage: r.fullMessage,
 	}
 }
