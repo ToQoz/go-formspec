@@ -64,5 +64,7 @@ func main() {
 		w.Write([]byte(`{"message": "ok"}`))
 	})
 
-	log.Fatal(http.ListenAndServe(":8888", nil))
+	addr := ":8888"
+	log.Print("Listen " + addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
