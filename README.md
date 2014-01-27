@@ -1,6 +1,6 @@
 # go-formspec
 
-[![Build Status](https://travis-ci.org/ToQoz/go-formspec?branch=master)](https://travis-ci.org/ToQoz/go-formspec)
+[![Build Status](https://travis-ci.org/ToQoz/go-formspec.png?branch=master)](https://travis-ci.org/ToQoz/go-formspec)
 
 Package github.com/ToQoz/formspec validates a form. So it will expresses **spec** for form.  This is generally used in http.Handler.
 
