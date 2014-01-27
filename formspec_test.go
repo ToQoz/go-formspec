@@ -19,7 +19,7 @@ func TestBasic(t *testing.T) {
 	//     formspec returns error `Please enter your cool nick.`
 	//     formspec returns error `goodpoing must not be blank.`
 
-	errs, ok := aFormspec.Validate(f)
+	ok, errs := aFormspec.Validate(f)
 
 	// check ok is false
 	if ok {
@@ -78,7 +78,7 @@ func TestClone(t *testing.T) {
 	//     formspec should not return error
 	f := newDummyform()
 	f.Set("password", "hoge")
-	_, ok := signInFormspec.Validate(f)
+	ok, _ := signInFormspec.Validate(f)
 
 	if !ok {
 		t.Errorf("validation error is not expected, but got it.")
@@ -91,7 +91,7 @@ func TestClone(t *testing.T) {
 	f = newDummyform()
 	f.Set("password", "hoge")
 
-	if _, ok := signUpFormspec.Validate(f); ok {
+	if ok, _ := signUpFormspec.Validate(f); ok {
 		t.Errorf("validation error is expected, but not got it.")
 	}
 
@@ -103,7 +103,7 @@ func TestClone(t *testing.T) {
 	f.Set("password", "hoge")
 	f.Set("password_confirmation", "hoge_different")
 
-	if _, ok := signUpFormspec.Validate(f); ok {
+	if ok, _ := signUpFormspec.Validate(f); ok {
 		t.Errorf("validation error is expected, but not got it.")
 	}
 
@@ -114,7 +114,7 @@ func TestClone(t *testing.T) {
 	f.Set("password", "hoge")
 	f.Set("password_confirmation", "hoge")
 
-	if _, ok := signUpFormspec.Validate(f); !ok {
+	if ok, _ := signUpFormspec.Validate(f); !ok {
 		t.Errorf("validation error is not expected, but got it.")
 	}
 }

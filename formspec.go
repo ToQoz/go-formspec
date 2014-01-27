@@ -40,7 +40,7 @@ func (f *Formspec) Rule(field string, ruleFunc RuleFunc) *Rule {
 	return rule
 }
 
-func (f *Formspec) Validate(form Form) (errors []error, ok bool) {
+func (f *Formspec) Validate(form Form) (ok bool, errors []error) {
 	ok = true
 
 	for _, rule := range f.Rules {

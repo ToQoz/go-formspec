@@ -20,7 +20,7 @@ func main() {
 	s.Rule("nick", formspec.RuleRequired()).FullMessage("Please enter your cool nickname.")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		errs, ok := s.Validate(r)
+		ok, errs := s.Validate(r)
 
 		if !ok {
 			w.WriteHeader(403)
@@ -37,7 +37,7 @@ func main() {
 	})
 
 	http.HandleFunc("/json", func(w http.ResponseWriter, r *http.Request) {
-		errs, ok := s.Validate(r)
+		ok, errs := s.Validate(r)
 
 		if !ok {
 			var verrs []*formspec.Error

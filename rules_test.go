@@ -37,7 +37,7 @@ func TestRuleRequired_WhenValueIsGiven_ItReturns__NO__Error(t *testing.T) {
 	s := New()
 	s.Rule("name", RuleRequired())
 
-	if _, ok := s.Validate(newDummyform().Set("name", "toqoz")); !ok {
+	if ok, _ := s.Validate(newDummyform().Set("name", "toqoz")); !ok {
 		t.Error("Test RuleRequired(): When value is given, returns no error. But got error.")
 	}
 }
@@ -47,12 +47,12 @@ func TestRuleRequired_WhenValueIsBlankOrNotGiven_ItReturnsError(t *testing.T) {
 	s.Rule("name", RuleRequired())
 
 	// value is blank
-	if _, ok := s.Validate(newDummyform().Set("name", "")); ok {
+	if ok, _ := s.Validate(newDummyform().Set("name", "")); ok {
 		t.Error("Test RuleRequired(): When value is blank, returns error. But got no error.")
 	}
 
 	// value is not given
-	if _, ok := s.Validate(newDummyform()); ok {
+	if ok, _ := s.Validate(newDummyform()); ok {
 		t.Error("Test RuleRequired(): When value is not given, returns error. But got no error.")
 		return
 	}
@@ -75,7 +75,7 @@ func TestRuleFormat(t *testing.T) {
 		f := newDummyform()
 		f.Set("name", example.input)
 
-		if _, ok := s.Validate(f); ok != example.expected {
+		if ok, _ := s.Validate(f); ok != example.expected {
 			t.Errorf("Test RuleFormat(regexp.MustCompile(`"+`\Atoqoz403\+?[0-9]*@gmail.com\z`+")): When `%s` is given, expected result is (_, %v), but got (_, %v).", example.input, example.expected, ok)
 		}
 	}
@@ -99,7 +99,7 @@ func TestRuleMaxLen(t *testing.T) {
 		f := newDummyform()
 		f.Set("name", example.input)
 
-		if _, ok := s.Validate(f); ok != example.expected {
+		if ok, _ := s.Validate(f); ok != example.expected {
 			t.Errorf("Test RuleMaxLen(10): When `%s(len=%d)` is given, expected result is (_, %v). But got (_, %v).", example.input, len(example.input), example.expected, ok)
 		}
 	}
@@ -123,7 +123,7 @@ func TestRuleMinLen(t *testing.T) {
 		f := newDummyform()
 		f.Set("name", example.input)
 
-		if _, ok := s.Validate(f); ok != example.expected {
+		if ok, _ := s.Validate(f); ok != example.expected {
 			t.Errorf("Test RuleMinLen(10): When `%s(len=%d)` is given, expected result is (_, %v). But got (_, %v).", example.input, len(example.input), example.expected, ok)
 		}
 	}
@@ -146,7 +146,7 @@ func TestRuleInt(t *testing.T) {
 		f := newDummyform()
 		f.Set("age", test.input)
 
-		if _, ok := s.Validate(f); ok != test.expected {
+		if ok, _ := s.Validate(f); ok != test.expected {
 			t.Errorf("Test RuleInt: When `%s` is given, expected result is (_, %v). But got (_, %v).", test.input, test.expected, ok)
 		}
 	}
@@ -169,7 +169,7 @@ func TestRuleNumber(t *testing.T) {
 		f := newDummyform()
 		f.Set("age", example.input)
 
-		if _, ok := s.Validate(f); ok != example.expected {
+		if ok, _ := s.Validate(f); ok != example.expected {
 			t.Errorf("Test RuleFloat: When value is `%s`, it returns (_, %v). But got (_, %v).", example.input, example.expected, ok)
 		}
 	}
@@ -200,7 +200,7 @@ func TestRuleIntGreaterThan(t *testing.T) {
 		f := newDummyform()
 		f.Set("age", example.input)
 
-		_, ok := s.Validate(f)
+		ok, _ := s.Validate(f)
 
 		if example.expected != ok {
 			t.Errorf("Test RuleIntGreaterThan(10): When `%s` is given, expected result is (_, %v). But got = (_, %v)", example.input, example.expected, ok)
@@ -231,7 +231,7 @@ func TestRuleIntLessThan(t *testing.T) {
 		f := newDummyform()
 		f.Set("age", example.input)
 
-		_, ok := s.Validate(f)
+		ok, _ := s.Validate(f)
 
 		if example.expected != ok {
 			t.Errorf("Test RuleIntLessThan(10): When `%s` is given, expected result is (_, %v). But got = (_, %v)", example.input, example.expected, ok)
@@ -262,7 +262,7 @@ func TestRuleFloatGreaterThan(t *testing.T) {
 		f := newDummyform()
 		f.Set("age", example.input)
 
-		_, ok := s.Validate(f)
+		ok, _ := s.Validate(f)
 
 		if example.expected != ok {
 			t.Errorf("Test RuleFloatGreaterThan(10.0): When `%s` is given, expected result is (_, %v). But got = (_, %v)", example.input, example.expected, ok)
@@ -293,7 +293,7 @@ func TestRuleFloatLessThan(t *testing.T) {
 		f := newDummyform()
 		f.Set("age", example.input)
 
-		_, ok := s.Validate(f)
+		ok, _ := s.Validate(f)
 
 		if example.expected != ok {
 			t.Errorf("Test RuleFloatLessThan(10.0): When `%s` is given, expected result is (_, %v). But got = (_, %v)", example.input, example.expected, ok)
