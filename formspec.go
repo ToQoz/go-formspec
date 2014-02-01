@@ -6,7 +6,7 @@ import (
 )
 
 type Result struct {
-	Ok     bool
+	Ok     bool     `json:"-"`
 	Errors []*Error `json:"errors"`
 }
 
