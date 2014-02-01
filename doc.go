@@ -5,6 +5,8 @@
 /*
 Package github.com/ToQoz/formspec validates a form. So it will expresses **spec** for form. This is generally used in http.Handler, but you can use *formspec.Result as a retuen value of your validation func in models.
 
+ExampleApp: https://github.com/ToQoz/go-formspec/tree/master/_example
+
 Simple usage in http.Handler.
 
 	package main
