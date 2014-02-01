@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 /*
-Package github.com/ToQoz/formspec validates a form. So it will expresses spec for form. This is generally used in http.Handler.
+Package github.com/ToQoz/formspec validates a form. So it will expresses **spec** for form.  This is generally used in http.Handler, but you can use *formspec.Result for your validation func in a model.
 
 Simple usage in http.Handler.
 

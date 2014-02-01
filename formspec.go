@@ -10,9 +10,27 @@ type Result struct {
 	Errors []*Error `json:"errors"`
 }
 
+func NewOkResult() *Result {
+	r := &Result{}
+	r.Ok = true
+
+	return r
+}
+
+func NewNgResult() *Result {
+	r := &Result{}
+	r.Ok = false
+
+	return r
+}
+
 type Error struct {
 	Field   string `json:"field"`
 	Message string `json:"message"`
+}
+
+func NewError(field, message string) *Error {
+	return &Error{Field: field, Message: message}
 }
 
 func (e *Error) Error() string {
@@ -42,14 +60,14 @@ func (f *Formspec) Rule(field string, ruleFunc RuleFunc) *Rule {
 }
 
 func (f *Formspec) Validate(form Form) *Result {
-	r := &Result{Ok: true}
+	r := NewOkResult()
 
 	for _, rule := range f.Rules {
 		err := rule.Call(form)
 
 		if err != nil {
 			r.Ok = false
-			r.Errors = append(r.Errors, &Error{Field: rule.Field, Message: err.Error()})
+			r.Errors = append(r.Errors, NewError(rule.Field, err.Error()))
 		}
 	}
 
