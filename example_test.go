@@ -24,21 +24,6 @@ func ExampleFormspec_basic() {
 	aFormspec.Rule("nick", formspec.RuleRequired()).FullMessage("Please enter your cool nick.")
 
 	f := &exampleForm{}
-	// f.Set("name", "ToQoz")
-	f.Set("age", "invalid int")
-	// f.Set("age", "22")
-	// f.Set("nick", "Toqoz")
-	vr := aFormspec.Validate(f)
-	fmt.Printf("%q, %v\n", vr.Errors, vr.Ok)
-}
-
-func ExampleFormspec_getValidationErrorDetail() {
-	aFormspec := formspec.New()
-	aFormspec.Rule("name", formspec.RuleRequired())
-	aFormspec.Rule("age", formspec.RuleRequired()).Message("must be integer. ok?").AllowBlank()
-	aFormspec.Rule("nick", formspec.RuleRequired()).FullMessage("Please enter your cool nick.")
-
-	f := &exampleForm{}
 
 	// f.Set("name", "ToQoz")
 	f.Set("age", "invalid int")
