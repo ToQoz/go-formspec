@@ -20,7 +20,7 @@ func (e *exampleForm) FormValue(value string) string {
 func ExampleFormspec_basic() {
 	aFormspec := formspec.New()
 	aFormspec.Rule("name", formspec.RuleRequired())
-	aFormspec.Rule("age", formspec.RuleRequired()).Message("must be integer. ok?").AllowBlank()
+	aFormspec.Rule("age", formspec.RuleInt()).Message("must be integer. ok?").AllowBlank()
 	aFormspec.Rule("nick", formspec.RuleRequired()).FullMessage("Please enter your cool nick.")
 
 	f := &exampleForm{}
