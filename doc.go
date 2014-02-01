@@ -23,13 +23,12 @@ Simple usage in http.Handler.
 		s.Rule("nick", formspec.RuleRequired()).FullMessage("Please enter your cool nickname.")
 
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			ok, errs := s.Validate(r)
+			vr := s.Validate(r)
 
-			if !ok {
+			if !vr.Ok {
 				w.WriteHeader(403)
 
-				for _, err := range errs {
-					verr := err.(*formspec.Error)
+				for _, verr := range vr.Errors {
 					w.Write([]byte(fmt.Sprintf("Validation error in %s. %s\n", verr.Field, verr.Message)))
 				}
 

@@ -16,9 +16,7 @@ func TestSingleFilter(t *testing.T) {
 		return strings.Trim(value, " ")
 	})
 
-	ok, _ := aFormspec.Validate(f)
-
-	if ok {
+	if r := aFormspec.Validate(f); r.Ok {
 		t.Errorf("expected validation error")
 	}
 }
@@ -38,9 +36,7 @@ func TestMultipleFilter(t *testing.T) {
 		return strings.Trim(value, "\n")
 	})
 
-	ok, _ := aFormspec.Validate(f)
-
-	if ok {
+	if r := aFormspec.Validate(f); r.Ok {
 		t.Errorf("expected validation error")
 	}
 }

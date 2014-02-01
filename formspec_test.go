@@ -19,17 +19,17 @@ func TestBasic(t *testing.T) {
 	//     formspec returns error `Please enter your cool nick.`
 	//     formspec returns error `goodpoing must not be blank.`
 
-	ok, errs := aFormspec.Validate(f)
+	r := aFormspec.Validate(f)
 
 	// check ok is false
-	if ok {
+	if r.Ok {
 		t.Errorf("expected validation error")
 		return
 	}
 
 	// check all errors expected occur
 	func() {
-		for _, err := range errs {
+		for _, err := range r.Errors {
 			if err.Error() == "name is required." {
 				return
 			}
@@ -39,7 +39,7 @@ func TestBasic(t *testing.T) {
 	}()
 
 	func() {
-		for _, err := range errs {
+		for _, err := range r.Errors {
 			if err.Error() == "Please enter your cool nick." {
 				return
 			}
@@ -49,7 +49,7 @@ func TestBasic(t *testing.T) {
 	}()
 
 	func() {
-		for _, err := range errs {
+		for _, err := range r.Errors {
 			if err.Error() == "goodpoint must not be blank." {
 				return
 			}
@@ -78,9 +78,9 @@ func TestClone(t *testing.T) {
 	//     formspec should not return error
 	f := newDummyform()
 	f.Set("password", "hoge")
-	ok, _ := signInFormspec.Validate(f)
+	r := signInFormspec.Validate(f)
 
-	if !ok {
+	if !r.Ok {
 		t.Errorf("validation error is not expected, but got it.")
 	}
 
@@ -91,7 +91,7 @@ func TestClone(t *testing.T) {
 	f = newDummyform()
 	f.Set("password", "hoge")
 
-	if ok, _ := signUpFormspec.Validate(f); ok {
+	if r := signUpFormspec.Validate(f); r.Ok {
 		t.Errorf("validation error is expected, but not got it.")
 	}
 
@@ -103,7 +103,7 @@ func TestClone(t *testing.T) {
 	f.Set("password", "hoge")
 	f.Set("password_confirmation", "hoge_different")
 
-	if ok, _ := signUpFormspec.Validate(f); ok {
+	if r := signUpFormspec.Validate(f); r.Ok {
 		t.Errorf("validation error is expected, but not got it.")
 	}
 
@@ -114,7 +114,7 @@ func TestClone(t *testing.T) {
 	f.Set("password", "hoge")
 	f.Set("password_confirmation", "hoge")
 
-	if ok, _ := signUpFormspec.Validate(f); !ok {
+	if r := signUpFormspec.Validate(f); !r.Ok {
 		t.Errorf("validation error is not expected, but got it.")
 	}
 }

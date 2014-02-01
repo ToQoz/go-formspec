@@ -5,9 +5,10 @@ import (
 	"fmt"
 )
 
-// ----------------------------------------------------------------------------
-// Error
-// ----------------------------------------------------------------------------
+type Result struct {
+	Ok     bool
+	Errors []*Error `json:"errors"`
+}
 
 type Error struct {
 	Field   string `json:"field"`
@@ -40,19 +41,19 @@ func (f *Formspec) Rule(field string, ruleFunc RuleFunc) *Rule {
 	return rule
 }
 
-func (f *Formspec) Validate(form Form) (ok bool, errors []error) {
-	ok = true
+func (f *Formspec) Validate(form Form) *Result {
+	r := &Result{Ok: true}
 
 	for _, rule := range f.Rules {
 		err := rule.Call(form)
 
 		if err != nil {
-			ok = false
-			errors = append(errors, &Error{Field: rule.Field, Message: err.Error()})
+			r.Ok = false
+			r.Errors = append(r.Errors, &Error{Field: rule.Field, Message: err.Error()})
 		}
 	}
 
-	return
+	return r
 }
 
 func (f *Formspec) Clone() *Formspec {

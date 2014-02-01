@@ -28,8 +28,8 @@ func ExampleFormspec_basic() {
 	f.Set("age", "invalid int")
 	// f.Set("age", "22")
 	// f.Set("nick", "Toqoz")
-	ok, errs := aFormspec.Validate(f)
-	fmt.Printf("%q, %v\n", errs, ok)
+	vr := aFormspec.Validate(f)
+	fmt.Printf("%q, %v\n", vr.Errors, vr.Ok)
 }
 
 func ExampleFormspec_getValidationErrorDetail() {
@@ -45,11 +45,10 @@ func ExampleFormspec_getValidationErrorDetail() {
 	// f.Set("age", "22")
 	// f.Set("nick", "Toqoz")
 
-	ok, errs := aFormspec.Validate(f)
+	vr := aFormspec.Validate(f)
 
-	if !ok {
-		for _, err := range errs {
-			verr := err.(*formspec.Error)
+	if !vr.Ok {
+		for _, verr := range vr.Errors {
 			fmt.Printf("Validation error in %s. Message is %s.\n", verr.Field, verr.Message)
 		}
 	}

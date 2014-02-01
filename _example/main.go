@@ -20,13 +20,12 @@ func main() {
 	s.Rule("nick", formspec.RuleRequired()).FullMessage("Please enter your cool nickname.")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		ok, errs := s.Validate(r)
+		vr := s.Validate(r)
 
-		if !ok {
+		if !vr.Ok {
 			w.WriteHeader(403)
 
-			for _, err := range errs {
-				verr := err.(*formspec.Error)
+			for _, verr := range vr.Errors {
 				w.Write([]byte(fmt.Sprintf("Validation error in %s. %s\n", verr.Field, verr.Message)))
 			}
 
@@ -37,16 +36,10 @@ func main() {
 	})
 
 	http.HandleFunc("/json", func(w http.ResponseWriter, r *http.Request) {
-		ok, errs := s.Validate(r)
+		vr := s.Validate(r)
 
-		if !ok {
-			var verrs []*formspec.Error
-
-			for _, err := range errs {
-				verrs = append(verrs, err.(*formspec.Error))
-			}
-
-			j, err := json.Marshal(&ErrorJson{Errors: verrs})
+		if !vr.Ok {
+			j, err := json.Marshal(vr)
 
 			if err != nil {
 				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
