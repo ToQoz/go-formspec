@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"unicode/utf8"
 )
 
 var (
@@ -42,7 +43,7 @@ func RuleRequired() RuleFunc {
 
 func RuleMaxLen(maxLen int) RuleFunc {
 	return func(value string, _ Form) error {
-		if len(value) > maxLen {
+		if utf8.RuneCountInString(value) > maxLen {
 			return fmt.Errorf(RuleMessageMaxLen, maxLen)
 		}
 
@@ -52,7 +53,7 @@ func RuleMaxLen(maxLen int) RuleFunc {
 
 func RuleMinLen(minLen int) RuleFunc {
 	return func(value string, _ Form) error {
-		if len(value) < minLen {
+		if utf8.RuneCountInString(value) < minLen {
 			return fmt.Errorf(RuleMessageMinLen, minLen)
 		}
 
